@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <!-- form -->
+    <div class="box">
+        <form action="/add_birthday" method="post">
+            <input class="input is-expanded" type="text" autofocus autocomplete="off" name="name" placeholder="Name" id="">
+            <input class="input is-expanded" type="number" autofocus autocomplete="off" name="month" placeholder="Month" id="">
+            <div class="last">
+                <input class="input is-expanded" type="number" autofocus autocomplete="off" name="day" placeholder="Day" id="">
+                <button class="button is-primary"  type="submit">Add</button>
+            </div>
+            
+        </form>
+    </div>
+
+    <!-- table goes here -->
+    <div class="box">
+        <table class="table is-bordered">
+            <thead>
+                <tr>
+                    <th class="is-primary">Name</th>
+                    <th class="is-primary">Birthday</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, birthday in birthdays.items() %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ birthday }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="section">
+        <p class="main_font">I can see you're new. Please register</p>
+        <div class="form-container">
+            <form action="/register" method="post">
+                <input type="text" name="username" placeholder="Username" id="">
+                <input type="password" name="pass" placeholder="Password" id="">
+                <input type="password" name="confirm" placeholder="Confirm Password" id="">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="section">
+        {% if error %}
+            <p class=error><strong>{{ error }}</strong>
+        {% endif %}
+    </div>
+{% endblock %}

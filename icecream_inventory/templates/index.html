@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1 class="">Available Flavours</h1>
+    <ul>
+        {% for flavour in flavours %}
+            <li>{{ flavour }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+.hero {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.box {
+    margin: 10px;
+    background-color: beige;
+    max-width:150%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none !important;
+}
+
+
+.box form {
+    max-width: 100%;
+    background: #ccc;
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+}
+
+.box form input {
+    width: auto;
+}
+
+table {
+    width: 100%;
+}
+
+table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+}
+
+
