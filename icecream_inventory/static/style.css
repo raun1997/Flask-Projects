@@ -8,7 +8,7 @@
     background-image: linear-gradient(to left, #ccc, #ddd);
 }
 
-.card-foot {
+form {
     display: flex;
     justify-content: space-between;
     align-items: baseline;

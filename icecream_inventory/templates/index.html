@@ -11,10 +11,13 @@
                 <div class="card-body text-left bg-light">
                     <h5 class="card-title" style="font-size: 0.9rem;">{{ icecream["name"] }}</h5>
                     <p class="card-text" style="font-size: 0.9rem;">Some description</p>
-                    <div class="card-foot">
-                        <button class="btn btn-dark">Buy</button>
+
+                    <!-- Observe below how I used a form to place order -->
+                    <form action="/cart" method="post">
+                        <input name="icecream_id" type="hidden" value="{{ icecream['id'] }}">
+                        <button class="btn btn-dark" type="submit">Buy</button>
                         <p class="text-muted">₹</p>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
