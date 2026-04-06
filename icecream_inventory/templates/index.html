@@ -3,15 +3,18 @@
 {% block body %}
     <h1 class="">Available Flavours</h1>
     
-    <div class="row">
+    <div class="row g-5">
         {% for icecream in icecreams %}
-        <div class="col-md-3">
-            <div class="card mb-2 w-100">
+        <div class="col-md-2">
+            <div class="card mb-2">
                 <img class="card-img-top" src="{{ icecream.img }}" alt="{{ icecream.name }}">
                 <div class="card-body text-left bg-light">
-                    <h5 class="card-title">{{ icecream["name"] }}</h5>
-                    <p class="card-text">Some description</p>
-                    <button class="btn btn-primary">Buy</button>
+                    <h5 class="card-title" style="font-size: 0.9rem;">{{ icecream["name"] }}</h5>
+                    <p class="card-text" style="font-size: 0.9rem;">Some description</p>
+                    <div class="card-foot">
+                        <button class="btn btn-dark">Buy</button>
+                        <p class="text-muted">₹</p>
+                    </div>
                 </div>
             </div>
         </div>

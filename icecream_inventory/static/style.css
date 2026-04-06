@@ -1,0 +1,15 @@
+.card {
+    width: 11rem;
+}
+
+.card-img-top {
+    object-fit: contain;
+    padding: 10px;
+    background-image: linear-gradient(to left, #ccc, #ddd);
+}
+
+.card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
