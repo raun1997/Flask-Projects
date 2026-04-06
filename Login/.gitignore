@@ -1,3 +1,8 @@
-flask_session\*
+# Ignore Flask session folder
+flask_session/
 
-__pycache__\*
+# Ignore python cached files 
+__pycache__/
+
+# Ignore python compiled files
+*.pyc
