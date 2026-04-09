@@ -24,7 +24,7 @@
             <td>{{ expense["category"] }}</td>
             <td>
                 <a href="/edit/{{ expense['id'] }}">Edit</a>
-                <a href="/delete/{{ expense['id'] }}">Delete</a>
+                <a href="/delete/{{ expense.id }}">Delete</a>
             </td>
         </tr>
         {% endfor %}

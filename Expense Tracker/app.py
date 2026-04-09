@@ -53,6 +53,15 @@ def add_expense():
     
     return render_template("add.html")
 
+@app.route("/delete/<int:id>")
+def delete_expense(id):
+    expense = Expense.query.get(id)
+
+    if expense:
+        db.session.delete(expense)
+        db.session.commit()
+        return redirect("/")
+
 
 if __name__=="__main__":
     app.run(debug=True)
