@@ -1,85 +1,45 @@
-from flask import Flask, render_template, request, redirect, g
-import sqlite3          # for persistent storage
+from flask import Flask, redirect, render_template, request, url_for
+from flask_sqlalchemy import SQLAlchemy
 
-DATABASE = 'expensetracker.db'
-
-# configure app
 app = Flask(__name__)
-app.secret_key = "bqed6xgwq66_($%$!Vjhb"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///expensetracker.db"
+# initialize the app
+db = SQLAlchemy(app)
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-        cur = db.cursor()
-        cur.execute("SELECT * FROM expenses")
-        expenses = cur.fetchall()
-        return expenses 
+# each table in the database needs a class to be created for it
+# db.Model is required - don't change it
+# identify all columns by name and data type
+# create the model
+class Expense(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(10), nullable=False, unique=True)
+    category = db.Column(db.String(10), nullable=False, unique=True)
+    amount = db.Column(db.Float, nullable=False, unique=True)
+    date = db.Column(db.Date, nullable=False)
 
-# Create DB
-def init_db():
-    conn = sqlite3.connect(DATABASE)
-    cur = conn.cursor()
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS expenses (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            amount REAL,
-            category TEXT
-        )
-    """)
-    conn.commit()
-    conn.close()
+with app.app_context():
+    db.create_all()
 
-@app.route('/')
+@app.route("/")
 def index():
-    conn = sqlite3.connect("expensetracker.db")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM expenses")
-    data = cur.fetchall()
-    conn.close()
+    expenses = db.session.execute(db.select(Expense)).scalars()
+    return render_template("index.html", expenses=expenses)
 
-    total = sum([row[2] for row in data])
+@app.route("/add", methods=["GET", "POST"])
+def add_expense():
+    if request.method == "POST":
+        expense = Expense(
+            title = request.form.get("title"),
+            category = request.form.get("category"),
+            amount = request.form.get("amount"),
+            date = request.form.get("date"))
 
-    return render_template("index.html", expenses=data, total=total)
-
-# @app.route("/add", methods=["GET", "POST"])
-# def add():
-#     if request.method == 'POST':
-#         name = request.form.get("name")
-#         amount = request.form.get("amount")
-#         category = request.form.get("category")
-
-#         conn = sqlite3.connect("expensetracker.db")
-#         cur = conn.cursor()
-#         cur.executemany(
-#         "INSERT INTO expenses (title, amount, category) VALUES (?, ?, ?)",(name, amount, category))
-#         conn.commit()
-#         conn.close()
-#         return redirect("/")
+        db.session.add(expense)
+        db.session.commit()
+        return redirect("/")
     
-#     else:
-#         return render_template("add.html")
+    return render_template("add.html")
 
 
-@app.route('/edit/<int:id>', methods=['GET', 'POST'])
-def edit(id):
-    conn = sqlite3.connect("expensetracker.db")
-    cur = conn.cursor()
-
-    if request.method == 'POST':
-        title = request.form['title']
-        amount = request.form['amount']
-        category = request.form['category']
-
-        cur.execute("UPDATE expenses SET title=?, amount=?, category=? WHERE id=?",
-                    (title, amount, category, id))
-        conn.commit()
-        conn.close()
-        return redirect('/')
-
-    cur.execute("SELECT * FROM expenses WHERE id=?", (id,))
-    expense = cur.fetchone()
-    conn.close()
-
-    return render_template("edit.html", expense=expense)
+if __name__=="__main__":
+    app.run(debug=True)
