@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Expense</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends "layout.html" %}
+{% block content %}
 
 <div class="container">
     <h2>Edit Expense</h2>
@@ -25,5 +20,4 @@
     <a href="/" class="back-btn">⬅ Back</a>
 </div>
 
-</body>
-</html>
+{% endblock %}
