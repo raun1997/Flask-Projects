@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///expensetracker.db"
@@ -12,27 +13,38 @@ db = SQLAlchemy(app)
 # create the model
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(10), nullable=False, unique=True)
-    category = db.Column(db.String(10), nullable=False, unique=True)
-    amount = db.Column(db.Float, nullable=False, unique=True)
+    title = db.Column(db.String(10), nullable=False)
+    category = db.Column(db.String(10), nullable=False)
+    amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
+
+    def __repr__(self):
+        return self.title
 
 with app.app_context():
     db.create_all()
 
 @app.route("/")
 def index():
-    expenses = db.session.execute(db.select(Expense)).scalars()
+    expenses = Expense.query.all()
     return render_template("index.html", expenses=expenses)
 
 @app.route("/add", methods=["GET", "POST"])
 def add_expense():
     if request.method == "POST":
+
+        title = request.form.get("title")
+        category = request.form.get("category")
+        amount = request.form.get("amount")
+        date = request.form.get("date")
+        # converting the date string object to python datetime object
+        dateobj = datetime.strptime(date, "%Y-%m-%d").date()
+
         expense = Expense(
-            title = request.form.get("title"),
-            category = request.form.get("category"),
-            amount = request.form.get("amount"),
-            date = request.form.get("date"))
+            title = title,
+            category = category,
+            amount = amount,
+            date = dateobj)
 
         db.session.add(expense)
         db.session.commit()
