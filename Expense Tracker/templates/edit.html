@@ -4,15 +4,15 @@
 <div class="container">
     <h2>Edit Expense</h2>
 
-    <form method="POST" class="form">
-        <label>Title:</label>
-        <input type="text" name="title" value="{{ expense[1] }}" required>
+    <form method="POST">
+        <label>Date:</label>
+        <input type="datetime" name="date" value="{{ expense.date }}" required>
 
         <label>Amount:</label>
-        <input type="number" name="amount" value="{{ expense[2] }}" required>
+        <input type="number" name="amount" value="{{ expense.amount }}" required>
 
         <label>Category:</label>
-        <input type="text" name="category" value="{{ expense[3] }}" required>
+        <input type="text" name="category" value="{{ expense.category }}" required>
 
         <button type="submit">Update</button>
     </form>

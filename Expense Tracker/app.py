@@ -13,7 +13,6 @@ db = SQLAlchemy(app)
 # create the model
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(10), nullable=False)
     category = db.Column(db.String(10), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.Date, nullable=False)
@@ -34,7 +33,6 @@ def index():
 def add_expense():
     if request.method == "POST":
 
-        title = request.form.get("title")
         category = request.form.get("category")
         amount = request.form.get("amount")
         date = request.form.get("date")
@@ -42,7 +40,6 @@ def add_expense():
         dateobj = datetime.strptime(date, "%Y-%m-%d").date()
 
         expense = Expense(
-            title = title,
             category = category,
             amount = amount,
             date = dateobj)
@@ -61,6 +58,29 @@ def delete_expense(id):
         db.session.delete(expense)
         db.session.commit()
         return redirect("/")
+
+@app.route('/edit/<int:id>', methods=['GET','POST'])
+def edit(id):
+    expense = user = db.get_or_404(Expense, id)
+
+    if request.method == "POST":
+        if expense:
+            date = request.form["date"]
+            dateobj = datetime.strptime(date, "%Y-%m-%d").date()
+            amount = request.form['amount']
+            category = request.form['category']
+
+            # update table
+            db.session.add(Expense(
+                                amount=amount,
+                                date=dateobj,
+                                category=category))
+            # make changes permanent 
+            db.session.commit()
+
+            return redirect('/')
+
+    return render_template("edit.html", expense=expense)
 
 
 if __name__=="__main__":
