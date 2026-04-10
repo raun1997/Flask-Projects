@@ -1,0 +1,43 @@
+.card {
+    width: 12rem;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+/* Hover effect for fashion feel */
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Product Image */
+.card-img-top {
+    object-fit: contain;
+    padding: 10px;
+    background-image: linear-gradient(to left, #ffe6f0, #fff0f5);
+}
+
+/* Form styling */
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+/* Button styling */
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Text styling */
+h1 {
+    color: #d63384;  /* pink fashion color */
+}
+
+p {
+    font-size: 0.9rem;
+}

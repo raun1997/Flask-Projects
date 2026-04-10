@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Women's Fashion Collection 👗</h1>
+    
+    <div class="row g-5">
+        {% for product in products %}
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <img class="card-img-top" src="{{ product.img }}" alt="{{ product.name }}">
+                
+                <div class="card-body text-left bg-light">
+                    <h5 class="card-title" style="font-size: 1rem;">
+                        {{ product.name }}
+                    </h5>
+
+                    <p class="card-text" style="font-size: 0.9rem;">
+                        Stylish and trendy wear
+                    </p>
+
+                    <!-- Form to add to cart -->
+                    <form action="/cart" method="post">
+                        <input name="product_id" type="hidden" value="{{ product.id }}">
+                        
+                        <button class="btn btn-dark" type="submit">
+                            Add to Cart 🛒
+                        </button>
+
+                        <p class="text-muted">₹{{ product.price if product.price else "" }}</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
